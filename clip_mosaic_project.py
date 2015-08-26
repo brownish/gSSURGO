@@ -251,7 +251,6 @@ def projectRasters(in_ws, out_coords, out_ws):
     env.overwriteOutput = True
     in_rasters = arcpy.ListRasters()
     for raster in in_rasters:
-        print "Projecting", raster, os.path.join(out_ws, raster)
         arcpy.ProjectRaster_management(raster, os.path.join(out_ws, raster), out_coords)
 
 #---------------------------------------------------
@@ -340,13 +339,13 @@ def append_ws(in_ws, out_ws):
     append_fcs(in_ws, out_ws)
     append_tables(in_ws, out_ws)
     print "Mosaicking all rasters in", in_ws
-    #mosaicRasters(in_ws, out_ws)
+    mosaicRasters(in_ws, out_ws)
 
 
 def extract_selected_rows(in_table_name, in_gdb, copy_gdb, out_gdb):
     tableDict = {
         "MUPOLYGON":[("mapunit","mukey")],
-        "mapunit":[("legend","lkey"),("component","mukey"),("muaggatt","mukey"),("muaoverlap","mukey"),("mucropyld","mukey"),("mutext","mukey"), ("Lookup_Mukey","mukey")],
+        "mapunit":[("legend","lkey"),("component","mukey"),("muaggatt","mukey"),("muaoverlap","mukey"),("mucropyld","mukey"),("mutext","mukey")],
         "component":[("chorizon","cokey"),("cocanopycover","cokey"),("cocropyld","cokey"),("codiagfeatures","cokey"),("coecoclass","cokey"),("coeplants","cokey"),("coerosionacc","cokey"),("coforprod","cokey"),("cogeomordesc","cokey"),("cohydriccriteria","cokey"),("cointerp","cokey"),("comonth","cokey"),("copmgrp","cokey"),("copwindbreak","cokey"),("corestrictions","cokey"),("cosurffrags","cokey"),("cotaxfmmin","cokey"),("cotaxmoistcl","cokey"),("cotext","cokey"),("cotreestomng","cokey"),("cotxfmother", "cokey")],
         "chorizon":[("chaashto","chkey"),("chconsistence", "chkey"),("chdesgnsuffix","chkey"),("chfrags","chkey"),("chpores","chkey"),("chstructgrp","chkey"),("chtext","chkey"),("chtexturegrp","chkey"),("chunified","chkey")],
         "chstructgrp":[("chstruct","chstructgrpkey")],
@@ -418,7 +417,7 @@ def copy_related_rows(in_gdb, copy_gdb, out_gdb):
 def project_gdb(in_gdb, out_coords, scratch_ws, out_gdb):
     scratch_gdb_name = os.path.splitext(os.path.basename(in_gdb))[0] + '_scratch'
     scratch_gdb_path = os.path.join(scratch_ws, scratch_gdb_name + '.gdb')
-    create_gdb(scratch_ws, scratch_gdb_name, '10.0')
+    create_gdb(scratch_ws, scratch_gdb_name, 'CURRENT')
     projectFCs(in_gdb, out_coords, scratch_gdb_path)
     projectRasters(in_gdb, out_coords, out_gdb)
     append_fcs(scratch_gdb_path, out_gdb)
@@ -429,11 +428,11 @@ def project_gdb(in_gdb, out_coords, scratch_ws, out_gdb):
 def project_mn_gdb(in_gdb, out_coords, scratch_ws, out_gdb):
     scratch_gdb_name = os.path.splitext(os.path.basename(in_gdb))[0] + '_scratch'
     scratch_gdb_path = os.path.join(scratch_ws, scratch_gdb_name + '.gdb')
-    create_gdb(scratch_ws, scratch_gdb_name, '10.0')
+    create_gdb(scratch_ws, scratch_gdb_name, 'CURRENT')
     projectFCs(in_gdb, out_coords, scratch_gdb_path)
 
     # CHANGED FROM out_gdb to scratch_gdb_path
-    #projectRasters(in_gdb, out_coords, scratch_gdb_path)
+    # projectRasters(in_gdb, out_coords, scratch_gdb_path)
 
     append_fcs(scratch_gdb_path, out_gdb)
     append_tables(in_gdb, out_gdb)
@@ -442,10 +441,10 @@ def project_mn_gdb(in_gdb, out_coords, scratch_ws, out_gdb):
 def clip_gdb(in_gdb, clip_fc, scratch_ws):
     scratch_gdb_name = os.path.splitext(os.path.basename(in_gdb))[0] + '_scratch'
     scratch_gdb_path = os.path.join(scratch_ws, scratch_gdb_name + '.gdb')
-    create_gdb(scratch_ws, scratch_gdb_name, '10.0')
+    create_gdb(scratch_ws, scratch_gdb_name, 'CURRENT')
     clipFCs(in_gdb, clip_fc, scratch_gdb_path)
     copy_related_rows(scratch_gdb_path, in_gdb, scratch_gdb_path)
-    #clipRasters(in_gdb, clip_fc, scratch_gdb_path)
+    clipRasters(in_gdb, clip_fc, scratch_gdb_path)
     return scratch_gdb_path
 
 
