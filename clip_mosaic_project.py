@@ -419,10 +419,10 @@ def project_gdb(in_gdb, out_coords, scratch_ws, out_gdb):
     scratch_gdb_path = os.path.join(scratch_ws, scratch_gdb_name + '.gdb')
     create_gdb(scratch_ws, scratch_gdb_name, 'CURRENT')
     projectFCs(in_gdb, out_coords, scratch_gdb_path)
-    projectRasters(in_gdb, out_coords, out_gdb)
+    # projectRasters(in_gdb, out_coords, out_gdb)
     append_fcs(scratch_gdb_path, out_gdb)
     append_tables(in_gdb, out_gdb)
-    mosaicRasters(scratch_gdb_path, out_gdb)
+    # mosaicRasters(scratch_gdb_path, out_gdb)
 
 
 def project_mn_gdb(in_gdb, out_coords, scratch_ws, out_gdb):
@@ -444,7 +444,7 @@ def clip_gdb(in_gdb, clip_fc, scratch_ws):
     create_gdb(scratch_ws, scratch_gdb_name, 'CURRENT')
     clipFCs(in_gdb, clip_fc, scratch_gdb_path)
     copy_related_rows(scratch_gdb_path, in_gdb, scratch_gdb_path)
-    clipRasters(in_gdb, clip_fc, scratch_gdb_path)
+    # clipRasters(in_gdb, clip_fc, scratch_gdb_path)
     return scratch_gdb_path
 
 
