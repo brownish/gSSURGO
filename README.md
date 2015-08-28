@@ -1,7 +1,9 @@
 #gSSURGO
 
 Tools for manipulating and analyzing gSSURGO soils data in with python and ArcGIS.
+Note: No longer clips, projects, or merges the rasters. Fix coming.
 - - -
+
 
 ###Clip, Project, and Merge gSSURGO GDBs
 ####Script Tool Parameter Instructions
